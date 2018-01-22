@@ -1,0 +1,3 @@
+Compile using
+
+gcc -g main.c -o main -lpthread
