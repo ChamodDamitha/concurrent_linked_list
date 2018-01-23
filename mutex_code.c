@@ -1,3 +1,7 @@
+//
+// Created by chamod on 1/23/18.
+//
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <pthread.h>
@@ -124,6 +128,55 @@ float linked_list_serial_program(int argc, char *argv[]) {
     return CalculateTime(start, end);
 }
 
+float linked_list_mutex_program(int argc, char *argv[]) {
+
+    struct node *head = NULL;
+    int i;
+
+    pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;
+
+    GetArguments(argc, argv);
+
+    for (; i < n; i++) {
+        int r = rand() % 65536;
+        if (!Insert(r, &head)) {
+            i--;
+        }
+    }
+
+    int arr[m];
+
+
+    double start, end;
+
+    GET_TIME(start);
+    for (i = 0; i < m; i++) {
+        float temp = (rand() % 10000 / 10000.0);
+        int r = rand() % 65536;
+
+        if (temp < m_percentage_of_Member) {
+            pthread_mutex_lock(&mutex);
+            Member(r, head);
+            pthread_mutex_unlock(&mutex);
+        } else if (temp < m_percentage_of_Member + m_percentage_of_Insert) {
+            pthread_mutex_lock(&mutex);
+            Insert(r, &head);
+            pthread_mutex_unlock(&mutex);
+        } else {
+            pthread_mutex_lock(&mutex);
+            Delete(r, &head);
+            pthread_mutex_unlock(&mutex);
+        }
+    }
+
+    GET_TIME(end);
+
+    return CalculateTime(start, end);
+}
+
+
+
+
 void Display(struct node **head_pp) {
     struct node *r = *head_pp;
     if (r == NULL) {
@@ -147,18 +200,5 @@ int main(int argc, char *argv[]) {
 //        sum_of_time = sum_of_time + time;
 //        sum_of_time_square = sum_of_time_square + (time * time);
     }
-
-//    float mean = sum_of_time / samples;
-//    float sdtemp = (sum_of_time_square / samples) - (mean * mean);
-//    float sd = sqrt(sdtemp);
-//    printf("Serial Linked List Time Spent : \n mean: %.6f secs\n sd: %.6f secs \n", mean, sd);
-
-    /*struct node* head = NULL; 
-    for(int i;i<4;i++){ 
-        Insert(i,&head);
-    }
-    Display(&head);
-    Delete(1,&head);
-    Display(&head);*/
     return 0;
 }

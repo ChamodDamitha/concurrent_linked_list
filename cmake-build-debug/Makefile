@@ -150,6 +150,33 @@ main.c.s:
 	$(MAKE) -f CMakeFiles/concurrent_linked_list.dir/build.make CMakeFiles/concurrent_linked_list.dir/main.c.s
 .PHONY : main.c.s
 
+mutex_code.o: mutex_code.c.o
+
+.PHONY : mutex_code.o
+
+# target to build an object file
+mutex_code.c.o:
+	$(MAKE) -f CMakeFiles/concurrent_linked_list.dir/build.make CMakeFiles/concurrent_linked_list.dir/mutex_code.c.o
+.PHONY : mutex_code.c.o
+
+mutex_code.i: mutex_code.c.i
+
+.PHONY : mutex_code.i
+
+# target to preprocess a source file
+mutex_code.c.i:
+	$(MAKE) -f CMakeFiles/concurrent_linked_list.dir/build.make CMakeFiles/concurrent_linked_list.dir/mutex_code.c.i
+.PHONY : mutex_code.c.i
+
+mutex_code.s: mutex_code.c.s
+
+.PHONY : mutex_code.s
+
+# target to generate assembly for a file
+mutex_code.c.s:
+	$(MAKE) -f CMakeFiles/concurrent_linked_list.dir/build.make CMakeFiles/concurrent_linked_list.dir/mutex_code.c.s
+.PHONY : mutex_code.c.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -162,6 +189,9 @@ help:
 	@echo "... main.o"
 	@echo "... main.i"
 	@echo "... main.s"
+	@echo "... mutex_code.o"
+	@echo "... mutex_code.i"
+	@echo "... mutex_code.s"
 .PHONY : help
 
 

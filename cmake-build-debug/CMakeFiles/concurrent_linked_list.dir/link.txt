@@ -1,1 +1,1 @@
-/usr/bin/cc -g   CMakeFiles/concurrent_linked_list.dir/main.c.o  -o concurrent_linked_list 
+/usr/bin/cc -g   CMakeFiles/concurrent_linked_list.dir/main.c.o CMakeFiles/concurrent_linked_list.dir/mutex_code.c.o  -o concurrent_linked_list 

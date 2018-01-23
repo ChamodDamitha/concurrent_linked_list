@@ -1,5 +1,6 @@
 file(REMOVE_RECURSE
   "CMakeFiles/concurrent_linked_list.dir/main.c.o"
+  "CMakeFiles/concurrent_linked_list.dir/mutex_code.c.o"
   "concurrent_linked_list.pdb"
   "concurrent_linked_list"
 )

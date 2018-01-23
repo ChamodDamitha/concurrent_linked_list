@@ -5,6 +5,7 @@ set(CMAKE_DEPENDS_LANGUAGES
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_C
   "/home/chamod/Projects/concurrent_linked_list/main.c" "/home/chamod/Projects/concurrent_linked_list/cmake-build-debug/CMakeFiles/concurrent_linked_list.dir/main.c.o"
+  "/home/chamod/Projects/concurrent_linked_list/mutex_code.c" "/home/chamod/Projects/concurrent_linked_list/cmake-build-debug/CMakeFiles/concurrent_linked_list.dir/mutex_code.c.o"
   )
 set(CMAKE_C_COMPILER_ID "GNU")
 
