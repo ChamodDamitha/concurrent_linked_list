@@ -123,6 +123,33 @@ concurrent_linked_list/fast:
 	$(MAKE) -f CMakeFiles/concurrent_linked_list.dir/build.make CMakeFiles/concurrent_linked_list.dir/build
 .PHONY : concurrent_linked_list/fast
 
+linkdedList.o: linkdedList.c.o
+
+.PHONY : linkdedList.o
+
+# target to build an object file
+linkdedList.c.o:
+	$(MAKE) -f CMakeFiles/concurrent_linked_list.dir/build.make CMakeFiles/concurrent_linked_list.dir/linkdedList.c.o
+.PHONY : linkdedList.c.o
+
+linkdedList.i: linkdedList.c.i
+
+.PHONY : linkdedList.i
+
+# target to preprocess a source file
+linkdedList.c.i:
+	$(MAKE) -f CMakeFiles/concurrent_linked_list.dir/build.make CMakeFiles/concurrent_linked_list.dir/linkdedList.c.i
+.PHONY : linkdedList.c.i
+
+linkdedList.s: linkdedList.c.s
+
+.PHONY : linkdedList.s
+
+# target to generate assembly for a file
+linkdedList.c.s:
+	$(MAKE) -f CMakeFiles/concurrent_linked_list.dir/build.make CMakeFiles/concurrent_linked_list.dir/linkdedList.c.s
+.PHONY : linkdedList.c.s
+
 main.o: main.c.o
 
 .PHONY : main.o
@@ -186,6 +213,9 @@ help:
 	@echo "... rebuild_cache"
 	@echo "... edit_cache"
 	@echo "... concurrent_linked_list"
+	@echo "... linkdedList.o"
+	@echo "... linkdedList.i"
+	@echo "... linkdedList.s"
 	@echo "... main.o"
 	@echo "... main.i"
 	@echo "... main.s"
