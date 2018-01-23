@@ -15,6 +15,11 @@ struct node {
     struct node *next;
 };
 
+//const int MAX_THREADS = 1024;
+long thread_count = 0;
+pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;
+struct node *head = NULL;
+
 int n, m;
 float m_percentage_of_Member, m_percentage_of_Insert, m_percentage_of_Delete;
 
@@ -77,8 +82,9 @@ int Delete(int value, struct node **head) {
 
 void GetArguments(int argc, char *argv[]) {
 
-    n = (int) strtol(argv[1], (char **) NULL, 10);
-    m = (int) strtol(argv[2], (char **) NULL, 10);
+    thread_count = strtol(argv[1], NULL, 10);
+    n = (int) strtol(argv[2], (char **) NULL, 10);
+    m = (int) strtol(argv[3], (char **) NULL, 10);
 
     m_percentage_of_Member = (float) atof(argv[3]);
     m_percentage_of_Insert = (float) atof(argv[4]);
@@ -86,96 +92,8 @@ void GetArguments(int argc, char *argv[]) {
 }
 
 double CalculateTime(double start, double end) {
-//    return (double) (end.tv_usec - start.tv_usec) / 1000000 + (double) (end.tv_sec - start.tv_sec);
     return (end - start);
 }
-
-float linked_list_serial_program(int argc, char *argv[]) {
-
-    struct node *head = NULL;
-    int i;
-
-    GetArguments(argc, argv);
-
-    for (; i < n; i++) {
-        int r = rand() % 65536;
-        if (!Insert(r, &head)) {
-            i--;
-        }
-    }
-
-    int arr[m];
-
-
-    double start, end;
-
-    GET_TIME(start);
-    for (i = 0; i < m; i++) {
-        float temp = (rand() % 10000 / 10000.0);
-        int r = rand() % 65536;
-
-        if (temp < m_percentage_of_Member) {
-            Member(r, head);
-        } else if (temp < m_percentage_of_Member + m_percentage_of_Insert) {
-            Insert(r, &head);
-        } else {
-            Delete(r, &head);
-        }
-    }
-
-    GET_TIME(end);
-
-    return CalculateTime(start, end);
-}
-
-float linked_list_mutex_program(int argc, char *argv[]) {
-
-    struct node *head = NULL;
-    int i;
-
-    pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;
-
-    GetArguments(argc, argv);
-
-    for (; i < n; i++) {
-        int r = rand() % 65536;
-        if (!Insert(r, &head)) {
-            i--;
-        }
-    }
-
-    int arr[m];
-
-
-    double start, end;
-
-    GET_TIME(start);
-    for (i = 0; i < m; i++) {
-        float temp = (rand() % 10000 / 10000.0);
-        int r = rand() % 65536;
-
-        if (temp < m_percentage_of_Member) {
-            pthread_mutex_lock(&mutex);
-            Member(r, head);
-            pthread_mutex_unlock(&mutex);
-        } else if (temp < m_percentage_of_Member + m_percentage_of_Insert) {
-            pthread_mutex_lock(&mutex);
-            Insert(r, &head);
-            pthread_mutex_unlock(&mutex);
-        } else {
-            pthread_mutex_lock(&mutex);
-            Delete(r, &head);
-            pthread_mutex_unlock(&mutex);
-        }
-    }
-
-    GET_TIME(end);
-
-    return CalculateTime(start, end);
-}
-
-
-
 
 void Display(struct node **head_pp) {
     struct node *r = *head_pp;
@@ -189,16 +107,81 @@ void Display(struct node **head_pp) {
     printf("\n");
 }
 
+void *pthread_on_linked_list(void *rank) {
+
+    long long i;
+    long long my_m = m / thread_count;
+
+    for (i = 0; i < my_m; i++) {
+
+        float prob = (rand() % 10000 / 10000.0);
+
+
+        int r = rand() % 65536;
+
+        if (prob < m_percentage_of_Member) {
+            pthread_mutex_lock(&mutex);
+            Member(r, head);
+            pthread_mutex_unlock(&mutex);
+
+        } else if (prob < m_percentage_of_Member + m_percentage_of_Insert) {
+            pthread_mutex_lock(&mutex);
+            Insert(r, &head);
+            pthread_mutex_unlock(&mutex);
+
+        } else {
+            pthread_mutex_lock(&mutex);
+            Delete(r, &head);
+            pthread_mutex_unlock(&mutex);
+        }
+    }
+
+    return NULL;
+}
+
+
+float linkedList_mutex_program(int argc, char *argv[]) {
+    int i = 0;
+    long thread;
+    pthread_t *thread_handles;
+    double_t start, end;
+    GetArguments(argc, argv);
+
+    for (; i < n; i++) {
+        int r = rand() % 65536;
+        if (!Insert(r, &head)) {
+            i--;
+        }
+    }
+
+    thread_handles = (pthread_t *) malloc(thread_count * sizeof(pthread_t));
+
+
+    GET_TIME(start);
+
+    for (thread = 0; thread < thread_count; thread++) {
+        pthread_create(&thread_handles[thread], NULL, pthread_on_linked_list, (void *) thread);
+    }
+
+    for (thread = 0; thread < thread_count; thread++) {
+        pthread_join(thread_handles[thread], NULL);
+    }
+
+    GET_TIME(end);
+
+    return CalculateTime(start, end);
+
+}
+
 int main(int argc, char *argv[]) {
-    int samples = 12;
-    float sum_of_time = 0;
-    float sum_of_time_square = 0;
+    int samples = 10;
 
     for (int j = 0; j < samples; j++) {
-        float time = linked_list_serial_program(argc, argv);
-        printf("%.6f\n",time);
-//        sum_of_time = sum_of_time + time;
-//        sum_of_time_square = sum_of_time_square + (time * time);
+        pthread_mutex_init(&mutex, NULL);
+        float time = linkedList_mutex_program(argc, argv);
+        pthread_mutex_destroy(&mutex);
+        printf("%.6f  \n", time);
     }
     return 0;
+
 }
