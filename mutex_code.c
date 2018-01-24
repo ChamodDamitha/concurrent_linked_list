@@ -95,7 +95,7 @@ float linkedList_mutex_program(int argc, char *argv[]) {
 }
 
 int main(int argc, char *argv[]) {
-    const int samples = 11;
+    const int samples = 4;
 
     for (int j = 0; j < samples; j++) {
         pthread_mutex_init(&mutex, NULL);
