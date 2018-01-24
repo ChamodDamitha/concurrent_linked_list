@@ -78,15 +78,6 @@
 				</MakeCommands>
 			</Target>
 		</Build>
-		<Unit filename="/home/chamod/Projects/concurrent_linked_list/linkdedList.c">
-			<Option target="concurrent_linked_list"/>
-		</Unit>
-		<Unit filename="/home/chamod/Projects/concurrent_linked_list/main.c">
-			<Option target="concurrent_linked_list"/>
-		</Unit>
-		<Unit filename="/home/chamod/Projects/concurrent_linked_list/mutex_code.c">
-			<Option target="concurrent_linked_list"/>
-		</Unit>
 		<Unit filename="/home/chamod/Projects/concurrent_linked_list/CMakeLists.txt">
 			<Option virtualFolder="CMake Files\"/>
 		</Unit>

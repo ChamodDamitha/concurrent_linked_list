@@ -59,7 +59,7 @@ float linked_list_serial_program(int argc, char *argv[]) {
 
 
 int main(int argc, char *argv[]) {
-    const int samples = 12;
+    const int samples = 3;
 
     for (int j = 0; j < samples; j++) {
         float time = linked_list_serial_program(argc, argv);

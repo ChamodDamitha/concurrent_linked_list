@@ -87,7 +87,8 @@ float linkedList_rw_program(int argc, char *argv[]) {
 }
 
 int main(int argc, char *argv[]) {
-    for (int j = 0; j < 5; j++) {
+    int samples = 10;
+    for (int j = 0; j < samples; j++) {
         pthread_rwlock_init(&rwlock, NULL);
         float time = linkedList_rw_program(argc, argv);
         pthread_rwlock_destroy(&rwlock);
